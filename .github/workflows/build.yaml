@@ -1,0 +1,72 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - WSL2-Linux-Kernel
+
+jobs:
+
+  Build:
+    runs-on: ubuntu-latest
+
+    env:
+      # Both of these will be set dynamically in a later step
+      GIT_VERSION:
+      KERNEL_VERSION:
+
+    defaults:
+      run:
+        working-directory: WSL2-Linux-Kernel
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    # Necessary for git describe. This takes some time, but we want to make sure
+    # to have the correct version baked into the kernel image in the end.
+    - name: Fetch kernel tags
+      run: git fetch --tags
+
+    - name: Get kernel config from tag "linux-msft-5.4.91"
+      run: git show linux-msft-5.4.91:Microsoft/config-wsl > .config
+
+    - name: Build kernel
+      uses: addnab/docker-run-action@v3
+      with:
+        image: carlfriedrich/wsl-kernel-build:latest
+        options: |
+          -v ${{ github.workspace }}/WSL2-Linux-Kernel:/src
+          --hostname wsl-kernel-build
+        run: bash -c "make -j 32 CONFIG_LOCALVERSION_AUTO=y KCONFIG_CONFIG=.config"
+                  
+    - name: Get kernel version
+      run: |
+        KERNEL_VERSION=$(scripts/extract-vmlinux arch/x86/boot/bzImage \
+          | grep -a 'Linux version' | head -1 | cut -d" " -f3)
+        echo "KERNEL_VERSION=${KERNEL_VERSION}" >> $GITHUB_ENV
+
+    - name: Get git version
+      run: echo "GIT_VERSION=$(git describe)" >> $GITHUB_ENV
+  
+    - name: Put kernel version into filename
+      run: mv arch/x86/boot/bzImage bzImage-${{env.KERNEL_VERSION}}
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: bzImage-${{env.KERNEL_VERSION}}
+        path: |
+          WSL2-Linux-Kernel/bzImage-${{env.KERNEL_VERSION}}
+
+    - name: Publish release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{env.GIT_VERSION}}
+        files: WSL2-Linux-Kernel/bzImage-${{env.KERNEL_VERSION}}
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
