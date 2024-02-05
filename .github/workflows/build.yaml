@@ -13,7 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      # Both of these will be set dynamically in a later step
+      # All of these will be set dynamically in a later step
+      UID:
+      GID:
       GIT_VERSION:
       KERNEL_VERSION:
 
@@ -29,20 +31,32 @@ jobs:
 
     # Necessary for git describe. This takes some time, but we want to make sure
     # to have the correct version baked into the kernel image in the end.
-    - name: Fetch kernel tags
-      run: git fetch --tags
+    # v5.4-rc8 is the tag right before v5.4, which is the start for our bisect.
+    - name: Fetch history up to tag "v5.4-rc8"
+      run: git fetch --shallow-exclude=v5.4-rc8
+
+    - name: Fetch tag "linux-msft-5.4.91"
+      run: git fetch --depth 1 origin tag linux-msft-5.4.91
 
     - name: Get kernel config from tag "linux-msft-5.4.91"
       run: git show linux-msft-5.4.91:Microsoft/config-wsl > .config
+
+    # These are needed to be passed to the docker container, so that "git describe"
+    # does not complain about dubious ownership during kernel build.
+    - name: Determine UID and GID
+      run: |
+        echo "UID=$(id -u ${USER})" >> $GITHUB_ENV
+        echo "GID=$(id -g ${USER})" >> $GITHUB_ENV
 
     - name: Build kernel
       uses: addnab/docker-run-action@v3
       with:
         image: carlfriedrich/wsl-kernel-build:latest
         options: |
-          -v ${{ github.workspace }}/WSL2-Linux-Kernel:/src
+          -v ${{ github.workspace }}:/src
+          -u ${{env.UID}}:${{env.GID}}
           --hostname wsl-kernel-build
-        run: bash -c "make -j 32 CONFIG_LOCALVERSION_AUTO=y KCONFIG_CONFIG=.config"
+        run: bash -c "make -j 32 -C WSL2-Linux-Kernel CONFIG_LOCALVERSION_AUTO=y KCONFIG_CONFIG=.config"
                   
     - name: Get kernel version
       run: |
