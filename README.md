@@ -11,9 +11,13 @@ is available [on Docker Hub][4].
 The [WSL2-Linux-Kernel][5] repository is contained here as a Git submodule. A
 pushed change to its revision triggers a [workflow here][6] building the kernel
 on this specific codebase, which then will be tagged and provided as a
-[release][7]. We're trying to use [`git-bisect`][8] to find the commit
-introducing the beforementioned issue.
+[release][7]. Since we're building upstream kernel versions, which do not
+include the WSL kernel config, we're using the
+[WSL kernel config from the`linux-msft-5.4.91` tag][8] for all builds.
 
+
+We're trying to use [`git-bisect`][9] to find the commit introducing the
+beforementioned issue.
 Since the issue does not appear instantly, but needs some inconsistent time
 until it pops up, people are invited to help testing the built kernel images in
 their environments. Please follow carlfriedrich/wsl-kernel-build#1 in this
@@ -44,7 +48,7 @@ $ uname --kernel-release
 ```
 
 Please note that the kernel version string is formatted differently than the git
-tag it was created from due to the [implementation of the kernel version][9].
+tag it was created from due to the [implementation of the kernel version][10].
 
 ### Manual kernel build
 
@@ -76,5 +80,6 @@ git clean -dfx
 [5]: https://github.com/microsoft/WSL2-Linux-Kernel
 [6]: https://github.com/carlfriedrich/wsl-kernel-build/actions
 [7]: https://github.com/carlfriedrich/wsl-kernel-build/releases
-[8]: https://git-scm.com/docs/git-bisect
-[9]: https://github.com/microsoft/WSL2-Linux-Kernel/blob/linux-msft-wsl-5.15.y/scripts/setlocalversion#L60-L64
+[8]: https://github.com/microsoft/WSL2-Linux-Kernel/blob/linux-msft-5.4.91/Microsoft/config-wsl
+[9]: https://git-scm.com/docs/git-bisect
+[10]: https://github.com/microsoft/WSL2-Linux-Kernel/blob/linux-msft-wsl-5.15.y/scripts/setlocalversion#L60-L64
