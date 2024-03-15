@@ -7,5 +7,9 @@ git bisect bad e42617b825f8073569da76dc4510bfa019b1c35a
 git bisect good 219d54332a09e8d8741c1e1982f5eae56099de85
 # bad: [9a3d7fd275be4559277667228902824165153c80] Merge tag 'driver-core-5.5-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core
 git bisect bad 9a3d7fd275be4559277667228902824165153c80
+# good: [386403a115f95997c2715691226e11a7b5cffcfd] Merge git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next
+git bisect good 386403a115f95997c2715691226e11a7b5cffcfd
 # bad: [3f1b210a7f97f7e75c56174ada476fba2d36f340] Merge tag 'sound-5.5-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
 git bisect bad 3f1b210a7f97f7e75c56174ada476fba2d36f340
+# bad: [77a05940eee7e9891cd6add7a690a3e762ee21b0] Merge branch 'sched-core-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect bad 77a05940eee7e9891cd6add7a690a3e762ee21b0
