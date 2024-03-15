@@ -1,0 +1,11 @@
+git bisect start
+# status: waiting for both good and bad commits
+# bad: [e42617b825f8073569da76dc4510bfa019b1c35a] Linux 5.5-rc1
+git bisect bad e42617b825f8073569da76dc4510bfa019b1c35a
+# status: waiting for good commit(s), bad commit known
+# good: [219d54332a09e8d8741c1e1982f5eae56099de85] Linux 5.4
+git bisect good 219d54332a09e8d8741c1e1982f5eae56099de85
+# bad: [9a3d7fd275be4559277667228902824165153c80] Merge tag 'driver-core-5.5-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core
+git bisect bad 9a3d7fd275be4559277667228902824165153c80
+# bad: [3f1b210a7f97f7e75c56174ada476fba2d36f340] Merge tag 'sound-5.5-rc1' of git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound
+git bisect bad 3f1b210a7f97f7e75c56174ada476fba2d36f340
