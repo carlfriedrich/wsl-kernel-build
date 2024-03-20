@@ -13,3 +13,5 @@ git bisect good 386403a115f95997c2715691226e11a7b5cffcfd
 git bisect bad 3f1b210a7f97f7e75c56174ada476fba2d36f340
 # bad: [77a05940eee7e9891cd6add7a690a3e762ee21b0] Merge branch 'sched-core-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
 git bisect bad 77a05940eee7e9891cd6add7a690a3e762ee21b0
+# bad: [1d87200446f1d10dfe9672ca8edb027a82612f8c] Merge branch 'x86-asm-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect bad 1d87200446f1d10dfe9672ca8edb027a82612f8c
