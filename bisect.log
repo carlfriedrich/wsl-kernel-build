@@ -15,3 +15,5 @@ git bisect bad 3f1b210a7f97f7e75c56174ada476fba2d36f340
 git bisect bad 77a05940eee7e9891cd6add7a690a3e762ee21b0
 # bad: [1d87200446f1d10dfe9672ca8edb027a82612f8c] Merge branch 'x86-asm-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
 git bisect bad 1d87200446f1d10dfe9672ca8edb027a82612f8c
+# good: [a86f69d3349569a610eb9ff3b9e4bd1c40fe62f2] Merge tag 'spi-v5.5' of git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi
+git bisect good a86f69d3349569a610eb9ff3b9e4bd1c40fe62f2
