@@ -19,3 +19,5 @@ git bisect bad 1d87200446f1d10dfe9672ca8edb027a82612f8c
 git bisect good a86f69d3349569a610eb9ff3b9e4bd1c40fe62f2
 # bad: [da42761df5ceed2f8b0527bc4c1b2760be45ddb9] Merge branch 'x86-platform-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
 git bisect bad da42761df5ceed2f8b0527bc4c1b2760be45ddb9
+# good: [a25bbc2644f01a9e680af4f760b54bd4834fdfec] Merge branches 'x86-cpu-for-linus' and 'x86-fpu-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect good a25bbc2644f01a9e680af4f760b54bd4834fdfec
