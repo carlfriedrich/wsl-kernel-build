@@ -23,3 +23,5 @@ git bisect bad da42761df5ceed2f8b0527bc4c1b2760be45ddb9
 git bisect good a25bbc2644f01a9e680af4f760b54bd4834fdfec
 # bad: [24ee25a6da84d83a25d93af52b5fef7407030b20] Merge branch 'x86-kdump-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
 git bisect bad 24ee25a6da84d83a25d93af52b5fef7407030b20
+# good: [cd4771f7709211082cbc41dc1f5b2be774ef1604] Merge branch 'x86-entry-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
+git bisect good cd4771f7709211082cbc41dc1f5b2be774ef1604
