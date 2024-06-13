@@ -35,11 +35,11 @@ jobs:
     - name: Fetch history up to tag "v5.4-rc8"
       run: git fetch --shallow-exclude=v5.4-rc8
 
-    - name: Fetch tag "linux-msft-5.4.91"
-      run: git fetch --depth 1 origin tag linux-msft-5.4.91
+    - name: Get kernel config
+      run: cp Microsoft/config-wsl .config
 
-    - name: Get kernel config from tag "linux-msft-5.4.91"
-      run: git show linux-msft-5.4.91:Microsoft/config-wsl > .config
+    - name: Get version
+      run: git describe
 
     # These are needed to be passed to the docker container, so that "git describe"
     # does not complain about dubious ownership during kernel build.

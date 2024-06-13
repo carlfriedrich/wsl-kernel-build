@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     libelf-dev \
     bc \
     git \
+    python3 \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src
