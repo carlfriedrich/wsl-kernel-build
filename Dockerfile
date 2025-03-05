@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y \
     bc \
     git \
     python3 \
+    pahole \
+    cpio \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /src

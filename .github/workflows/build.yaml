@@ -39,7 +39,7 @@ jobs:
       run: cp Microsoft/config-wsl .config
 
     - name: Get version
-      run: git describe
+      run: git describe --tags
 
     # These are needed to be passed to the docker container, so that "git describe"
     # does not complain about dubious ownership during kernel build.
@@ -51,22 +51,21 @@ jobs:
     - name: Build kernel
       uses: addnab/docker-run-action@v3
       with:
-        image: carlfriedrich/wsl-kernel-build:latest
+        image: carlfriedrich/wsl-kernel-build:ubuntu24.04
         options: |
           -v ${{ github.workspace }}:/src
           -u ${{env.UID}}:${{env.GID}}
           --hostname wsl-kernel-build
         run: bash -c "make -j 32 -C WSL2-Linux-Kernel CONFIG_LOCALVERSION_AUTO=y KCONFIG_CONFIG=.config"
-                  
+
     - name: Get kernel version
       run: |
-        KERNEL_VERSION=$(scripts/extract-vmlinux arch/x86/boot/bzImage \
-          | grep -a 'Linux version' | head -1 | cut -d" " -f3)
+        KERNEL_VERSION=$(make kernelrelease)
         echo "KERNEL_VERSION=${KERNEL_VERSION}" >> $GITHUB_ENV
 
     - name: Get git version
-      run: echo "GIT_VERSION=$(git describe)" >> $GITHUB_ENV
-  
+      run: echo "GIT_VERSION=$(git describe --tags)" >> $GITHUB_ENV
+
     - name: Put kernel version into filename
       run: mv arch/x86/boot/bzImage bzImage-${{env.KERNEL_VERSION}}
 
